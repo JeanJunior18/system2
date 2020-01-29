@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title>Novo Modelo</title>
+</head>
+<body>
+    <form onsubmit="cadastrar()" method="post">
+    <input type="text" placeholder="Marca" id="marca" name="marca"><br>
+    <input type="text" placeholder="Modelo" id="modelo" name="modelo"><br>
+    <input type="submit" value="Cadastrar">
+    </form>
+
+    <script>
+        function cadastrar(){
+            var marca = $('#marca')
+            var modelo = $('#modelo')
+            $.ajax({
+                url:'newcar',
+                method: 'post',
+                data: {marca,modelo}
+            }).done(x=>{console.log(x)})
+            
+        }
+    </script>
+</body>
+</html>

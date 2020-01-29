@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <title></title>
+</head>
+<body>
+    <nav>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="/">System</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Alterna navegação">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Encerrados</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Clientes</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Carros</a>
+                </li>
+              </ul>
+            </div>
+          </nav>
+    </nav>
+
+    <form  method="post">
+        <div class="container">
+            <h1 class="h1 mt-4">Entrada de Serviços</h1>
+            <!-- Linha Nome e Contato -->
+            <div class="row mt-4">
+                <div class="col-md-7 form-group">
+                    <label for="cliente">Cliente: </label>
+                    <input class="form-control" type="text" name="cliente" id="cliente" placeholder="Nome do cliente" required>
+                </div>
+                <div class="col form-group">
+                    <label for="contato">Contato: </label>
+                    <input type="text" name="contato" id="contato" class="form-control" placeholder="(99) 9999-9999">
+                </div>
+            </div>
+            <!-- Linha Carro e Placa -->
+            <div class="row ">
+                <div class="col-md-7 form-group">
+                    <label for="carro">Carro: </label>
+                    <div class="input-group">
+                        <select name="carro" id="carro" class="form-control">
+                            <option value="Não Definido!">Selecione o Veículo</option>
+                        </select>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".AddCarModal">+</button>
+                    </div>
+                </div>
+                <div class="col form-group">
+                    <label for="placa">Placa: </label>
+                    <input type="text" id="placa" name="placa" class="form-control" placeholder="">
+                </div>
+            </div>
+            <!-- Linha Serviço e valor -->
+            <div class="row ">
+                <div class="col-md-7 form-group">
+                    <label for="carro">Serviço: </label>
+                    <div class="input-group">
+                        <select name="service" id="service" class="form-control">
+                            <option value="Teste" >Teste</option>
+                        </select>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".AddServiceModal">+</button>
+                    </div>
+                </div>
+                <div class="col form-group">
+                    <label for="valor">Valor: </label>
+                    <input type="number" id="valor" name="valor" class="form-control">
+                </div>
+            </div>
+            <!-- Linha Forma de Pagamento e obs -->
+            <div class="row ">
+                <div class="col-md-7 form-group">  
+                    <label for="pagform">Forma de Pagamento: </label>
+                    <div class="input-group">
+                        <select name="pagform" id="pagform" class="form-control">
+                            <option value="Teste" >Teste</option>
+                        </select>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".AddPagamentoModal">+</button>
+                    </div>
+                    
+                </div>
+                <div class="col form-group">
+                    <label for="obs">Observações: </label>
+                    <textarea name="obs" class="form-control" id="obs" cols="30" rows="1"></textarea>
+                </div>
+            </div>
+            <!-- Última Linha -->
+            <div class="row mb-3">
+                <div class="col">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="pago">
+                        <label class="form-check-label" for="pago">Pago</label>
+                    </div>
+                </div>
+                <div class="col text-right ">
+                    <button class="btn btn-success">Adicionar</button>
+                </div>
+            </div>
+        </div><!--Fim Container-->
+    </form>
+
+    <!-- Modal que adiciona carros -->
+        <form onsubmit="return addcar()">
+            <div class="modal fade AddCarModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header"><h4>Adicionar Veículo</h4></div>
+                    <div class="modal-body form-group">
+                        <label for="newmarca">Marca: </label>
+                        <input type="text" class="form-control" id="newmarca" name="newmarca">
+                        <label for="newmodelo">Modelo: </label>
+                        <input type="text" id="newmodelo" name="newmodelo" class="form-control mb-4">
+                        <input type="submit" value="Enviar">
+                    </div>
+                </div>
+                </div>
+            </div>
+        </form>
+        <!-- Modal que adciona Serviços -->
+        <div class="modal fade AddServiceModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">Adicionar Serviço</div>
+                <div class="modal-body">
+                    <label for="newservice">Serviço: </label>
+                    <input type="text" id="newservice" class="form-control mb-4">
+                    <button type="button" class="btn btn-primary">Adicionar</button>
+                </div>
+            </div>
+            </div>
+        </div>
+        <!-- Modal que adiciona Formas de Pagamento -->
+        <div class="modal fade AddPagamentoModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">Adicionar Forma de Pagamento</div>
+                <div class="modal-body">
+                    <label for="newpagform">Forma de Pagamento: </label>
+                    <input type="text" id="newpagform" class="form-control mb-4">
+                    <button type="button" class="btn btn-primary">Adicionar</button>
+                </div>
+            </div>
+            </div>
+        </div>
+
+    <script>
+        function addcar(){
+            var marca = $('#newmarca').val()
+            var modelo = $('#newmodelo').val()
+            $.ajax({
+                url:'/newcar',
+                method:'post',
+                data:{marca,modelo}
+            }).done(x=>{console.log(x)})
+            return false
+        }
+        showcar()
+        function showcar(){
+            $.ajax({
+                url:'/listcar',
+                method:'post'
+            }).done(car=>{
+                for( i in car){
+                    $('#carro').append('<option value="'+
+                    car[i].marca+' '+car[i].modelo+'" >'+car[i].marca+' '+
+                    car[i].modelo+'</option>')
+                }
+            })
+        }
+    </script>
+    
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+</html>
