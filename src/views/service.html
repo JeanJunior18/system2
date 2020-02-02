@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <title></title>
 </head>
 <body>
@@ -113,36 +115,39 @@
     </form>
 
     <!-- Modal que adiciona carros -->
-        <form onsubmit="return addcar()">
-            <div class="modal fade AddCarModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <form onsubmit="return addcar()" method="post">
+            <div id="AddCarModal" class="modal fade AddCarModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                     <div class="modal-header"><h4>Adicionar Veículo</h4></div>
                     <div class="modal-body form-group">
                         <label for="newmarca">Marca: </label>
-                        <input type="text" class="form-control" id="newmarca" name="newmarca">
+                        <input type="text" class="form-control" id="newmarca" name="newmarca" required>
                         <label for="newmodelo">Modelo: </label>
-                        <input type="text" id="newmodelo" name="newmodelo" class="form-control mb-4">
-                        <input type="submit" value="Enviar">
+                        <input type="text" id="newmodelo" name="newmodelo" class="form-control mb-4" required>
+                        <input type="submit" class="btn btn-primary" value="Enviar">
                     </div>
                 </div>
                 </div>
             </div>
         </form>
-        <!-- Modal que adciona Serviços -->
-        <div class="modal fade AddServiceModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+
+    <!-- Modal que adciona Serviços -->
+        <form onsubmit="return addservice()" method="post">
+        <div id="AddServiceModal" class="modal fade AddServiceModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">Adicionar Serviço</div>
                 <div class="modal-body">
                     <label for="newservice">Serviço: </label>
-                    <input type="text" id="newservice" class="form-control mb-4">
-                    <button type="button" class="btn btn-primary">Adicionar</button>
+                    <input type="text" id="newservice" name="newservice" class="form-control mb-4">
+                    <button type="submit" class="btn btn-primary">Adicionar</button>
                 </div>
             </div>
             </div>
         </div>
-        <!-- Modal que adiciona Formas de Pagamento -->
+    </form>
+    <!-- Modal que adiciona Formas de Pagamento -->
         <div class="modal fade AddPagamentoModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-sm">
             <div class="modal-content">
@@ -160,11 +165,18 @@
         function addcar(){
             var marca = $('#newmarca').val()
             var modelo = $('#newmodelo').val()
-            $.ajax({
+            if(confirm('Deseja adicionar o veículo: '+marca+' '+modelo+'?'))
+            {$.ajax({
                 url:'/newcar',
                 method:'post',
                 data:{marca,modelo}
-            }).done(x=>{console.log(x)})
+            }).done(x=>{console.log(x)
+                console.log(marca+' '+modelo+' adcionado')    
+            })
+            showcar()
+            $('#AddCarModal').modal('hide');
+            alert('Cadastrado com Sucesso!')
+        }
             return false
         }
         showcar()
@@ -173,6 +185,7 @@
                 url:'/listcar',
                 method:'post'
             }).done(car=>{
+                $('#carro').html('<option>Selecione o Veículo</option>')
                 for( i in car){
                     $('#carro').append('<option value="'+
                     car[i].marca+' '+car[i].modelo+'" >'+car[i].marca+' '+
@@ -180,13 +193,37 @@
                 }
             })
         }
+        function addservice(){
+            var service = $('#newservice')
+            if(confirm('Deseja adicionar '+newservice+' a lista de serviços?')){
+                $.ajax({
+                    url: '/newservice',
+                    method: 'post',
+                    data: {service}
+                }).done(x=>{console.log(x)
+                    console.log('Serviço '+service+' adicionado')
+                })
+                $('#AddServiceModal').modal('hide')
+                showservice()
+                alert('Cadastrado com Sucesso!')
+            }
+            return false
+        }
+        showservice()
+        function showservice(){
+            $.ajax({
+                url: '/listservices',
+                method: 'post'
+            }).done(serv =>{
+                $('#service').html('<option>Selecione o Serviço</option>')
+                for(i in serv){
+                    $('service').append('<option value="'+
+                    serv[i].servico+'">'+
+                    serv[i].servico+'</option>')
+                }
+            })
+        }
     </script>
     
-
-
-
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 </body>
 </html>
