@@ -6,7 +6,7 @@ const Pagform = mongoose.model('PagForm')
 module.exports = {
     async addNewService(req,res){
         var newservice = {
-            servico: req.body.newservice
+            servico: req.body.service
         };
         Service(newservice).save().then(()=>{
             console.log('Serviço adicionado');
@@ -15,7 +15,7 @@ module.exports = {
     },
     async addNewPagform(req,res){
         var newpagform = {
-            pagform: req.body.newpagform
+            pagform: req.body.pagform
         };
         Pagform(newpagform).save().then(()=>{
             console.log('Forma de Pagamento Adicionada');
@@ -25,6 +25,7 @@ module.exports = {
     async showServices(req,res){
         var all = await Service.find();
         res.json(all);
+        console.log('Select Serviços atualizado')
     },
     async ShowPagform(req,res){
         var all = await Pagform.find();

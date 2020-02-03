@@ -36,7 +36,7 @@
           </nav>
     </nav>
 
-    <form  method="post">
+    <form  method="post" action="/entradaservico">
         <div class="container">
             <h1 class="h1 mt-4">Entrada de Serviços</h1>
             <!-- Linha Nome e Contato -->
@@ -50,6 +50,7 @@
                     <input type="text" name="contato" id="contato" class="form-control" placeholder="(99) 9999-9999">
                 </div>
             </div>
+           
             <!-- Linha Carro e Placa -->
             <div class="row ">
                 <div class="col-md-7 form-group">
@@ -66,6 +67,7 @@
                     <input type="text" id="placa" name="placa" class="form-control" placeholder="">
                 </div>
             </div>
+           
             <!-- Linha Serviço e valor -->
             <div class="row ">
                 <div class="col-md-7 form-group">
@@ -82,6 +84,7 @@
                     <input type="number" id="valor" name="valor" class="form-control">
                 </div>
             </div>
+           
             <!-- Linha Forma de Pagamento e obs -->
             <div class="row ">
                 <div class="col-md-7 form-group">  
@@ -99,6 +102,7 @@
                     <textarea name="obs" class="form-control" id="obs" cols="30" rows="1"></textarea>
                 </div>
             </div>
+           
             <!-- Última Linha -->
             <div class="row mb-3">
                 <div class="col">
@@ -111,6 +115,7 @@
                     <button class="btn btn-success">Adicionar</button>
                 </div>
             </div>
+        
         </div><!--Fim Container-->
     </form>
 
@@ -125,7 +130,7 @@
                         <input type="text" class="form-control" id="newmarca" name="newmarca" required>
                         <label for="newmodelo">Modelo: </label>
                         <input type="text" id="newmodelo" name="newmodelo" class="form-control mb-4" required>
-                        <input type="submit" class="btn btn-primary" value="Enviar">
+                        <input type="submit" class="btn btn-primary" value="Adicionar">
                     </div>
                 </div>
                 </div>
@@ -141,27 +146,71 @@
                 <div class="modal-body">
                     <label for="newservice">Serviço: </label>
                     <input type="text" id="newservice" name="newservice" class="form-control mb-4">
-                    <button type="submit" class="btn btn-primary">Adicionar</button>
+                    <input type="submit" class="btn btn-primary" value="Adicionar">
                 </div>
             </div>
             </div>
         </div>
     </form>
     <!-- Modal que adiciona Formas de Pagamento -->
-        <div class="modal fade AddPagamentoModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <form onsubmit="return addpagform()" method="post">
+        <div id="AddPagformModal" class="modal fade AddPagamentoModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">Adicionar Forma de Pagamento</div>
                 <div class="modal-body">
                     <label for="newpagform">Forma de Pagamento: </label>
                     <input type="text" id="newpagform" class="form-control mb-4">
-                    <button type="button" class="btn btn-primary">Adicionar</button>
+                    <input type="submit" class="btn btn-primary" value="Adicionar">
                 </div>
             </div>
             </div>
         </div>
+    </form>
 
     <script>
+        showcar()
+        showservice()
+        showpagform()
+        function showcar(){
+            $.ajax({
+                url:'/listcar',
+                method:'post'
+            }).done(car=>{
+                $('#carro').html('<option>Selecione o Veículo</option>')
+                for( i in car){
+                    $('#carro').append('<option value="'+
+                    car[i].marca+' '+car[i].modelo+'" >'+car[i].marca+' '+
+                    car[i].modelo+'</option>')
+                }
+            })
+        }
+        function showservice(){
+            $.ajax({
+                url: '/listservices',
+                method: 'post'
+            }).done(serv =>{
+                $('#service').html('<option>Selecione o Serviço</option>')
+                for(i in serv){
+                    $('#service').append('<option value="'+
+                    serv[i].servico+'">'+
+                    serv[i].servico+'</option>')
+                }
+            })
+        }
+        function showpagform(){
+            $.ajax({
+                url: '/listpagform',
+                method: 'post'
+            }).done(pag=>{
+                $('#pagform').html('<option>Selecione a Forma de Pagamento</option>')
+                for(i in pag){
+                    $('#pagform').append('<option value="'+
+                    pag[i].pagform+'">'+
+                    pag[i].pagform+'</option>')
+                }
+            })
+        }
         function addcar(){
             var marca = $('#newmarca').val()
             var modelo = $('#newmodelo').val()
@@ -179,23 +228,9 @@
         }
             return false
         }
-        showcar()
-        function showcar(){
-            $.ajax({
-                url:'/listcar',
-                method:'post'
-            }).done(car=>{
-                $('#carro').html('<option>Selecione o Veículo</option>')
-                for( i in car){
-                    $('#carro').append('<option value="'+
-                    car[i].marca+' '+car[i].modelo+'" >'+car[i].marca+' '+
-                    car[i].modelo+'</option>')
-                }
-            })
-        }
         function addservice(){
-            var service = $('#newservice')
-            if(confirm('Deseja adicionar '+newservice+' a lista de serviços?')){
+            var service = $('#newservice').val()
+            if(confirm('Deseja adicionar '+service+' a lista de serviços?')){
                 $.ajax({
                     url: '/newservice',
                     method: 'post',
@@ -203,25 +238,31 @@
                 }).done(x=>{console.log(x)
                     console.log('Serviço '+service+' adicionado')
                 })
-                $('#AddServiceModal').modal('hide')
                 showservice()
+                $('#AddServiceModal').modal('hide')
                 alert('Cadastrado com Sucesso!')
             }
             return false
         }
-        showservice()
-        function showservice(){
-            $.ajax({
-                url: '/listservices',
-                method: 'post'
-            }).done(serv =>{
-                $('#service').html('<option>Selecione o Serviço</option>')
-                for(i in serv){
-                    $('service').append('<option value="'+
-                    serv[i].servico+'">'+
-                    serv[i].servico+'</option>')
-                }
-            })
+        function addpagform(){
+            var pagform = $('#newpagform').val()
+            if(confirm('Deseja adicionar '+pagform+' a formas de pagamento?')){
+                $.ajax({
+                    url: '/newpagform',
+                    method: 'post',
+                    data: {pagform}
+                }).done(x=>{console.log(x)})
+                showpagform()
+                $('#AddPagformModal').modal('hide')
+                alert('Cadastrado com sucesso')
+            }
+            return false
+        }
+
+        
+    
+        function SubmitForm(){
+
         }
     </script>
     

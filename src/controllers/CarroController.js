@@ -15,7 +15,7 @@ module.exports ={
     async showAllCars(req,res){
         const all = await Carro.find();
         res.json(all)
-        // console.log("Mostrando todos os carros")
+        console.log("Select atualizado!")
     }
   
   
