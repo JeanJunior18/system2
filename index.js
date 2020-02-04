@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const requireDir = require('require-dir');
 const path = require('path')
 
+
 // Init Config
 const app = express();
 app.use(bodyParser.urlencoded({extended:true}));
@@ -11,12 +12,17 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname+'public')));
 
 
+
 // Database
-mongoose.connect('mongodb+srv://dbuser:6789054321@carhouse-ost8x.gcp.mongodb.net/test?retryWrites=true&w=majority',  {
+const uri = 'mongodb+srv://dbuser:6789054321@carhouse-ost8x.gcp.mongodb.net/test?retryWrites=true&w=majority'
+// const uri = 'mongodb://localhost:27017/system1'
+mongoose.connect(uri,  {
     useUnifiedTopology:true,
     useFindAndModify:false,
     useNewUrlParser:true,
 });
+
+
 
 requireDir('./src/models');
 

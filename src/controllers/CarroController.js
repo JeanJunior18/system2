@@ -7,7 +7,7 @@ module.exports ={
             marca: req.body.marca,
             modelo: req.body.modelo,
         };
-        new Carro(newcar).save().then(()=>{
+        Carro(newcar).save().then(()=>{
             console.log("Salvo!");
             console.log(newcar);
         })

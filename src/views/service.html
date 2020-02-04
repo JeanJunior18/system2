@@ -222,9 +222,10 @@
             }).done(x=>{console.log(x)
                 console.log(marca+' '+modelo+' adcionado')    
             })
-            showcar()
+            
             $('#AddCarModal').modal('hide');
             alert('Cadastrado com Sucesso!')
+            showcar()
         }
             return false
         }
@@ -238,9 +239,9 @@
                 }).done(x=>{console.log(x)
                     console.log('Serviço '+service+' adicionado')
                 })
-                showservice()
                 $('#AddServiceModal').modal('hide')
                 alert('Cadastrado com Sucesso!')
+                showservice()
             }
             return false
         }
@@ -252,9 +253,9 @@
                     method: 'post',
                     data: {pagform}
                 }).done(x=>{console.log(x)})
-                showpagform()
                 $('#AddPagformModal').modal('hide')
                 alert('Cadastrado com sucesso')
+                showpagform()
             }
             return false
         }
