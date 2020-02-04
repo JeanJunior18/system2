@@ -12,7 +12,7 @@ app.use(express.static(path.join(__dirname+'public')));
 
 
 // Database
-mongoose.connect('mongodb://localhost:27017/system1',  {
+mongoose.connect('mongodb+srv://jean:123654789@cluster0-tkfwj.mongodb.net/test?retryWrites=true&w=majority',  {
     useUnifiedTopology:true,
     useFindAndModify:false,
     useNewUrlParser:true,
@@ -23,6 +23,6 @@ requireDir('./src/models');
 app.use('/', require('./src/routes'));
 
 // Start App
-var PORT = 3333
+var PORT = process.env.PORT || 3300
 app.listen(PORT, console.log('http://localhost:'+PORT));
 

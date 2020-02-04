@@ -14,16 +14,16 @@
 <body>
     <nav>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="#">System</a>
+            <a class="navbar-brand" href="/">System</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Alterna navegação">
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
               <ul class="navbar-nav">
-                <li class="nav-item active">
+                <li class="nav-item">
                   <a class="nav-link" href="/">Home</span></a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item active">
                   <a class="nav-link" href="/historico">Histórico</a>
                 </li>
                 <li class="nav-item">
@@ -40,14 +40,13 @@
 
 
     <div class="container">
-        <div class="row mt-4">
-            <div class="col-md-10">
-                <h1>Serviços em Andamento</h1>
-            </div>
-            <div class="col-md ">
-                <a href="/newservice"><input type="button" class="btn btn-success" value="Novo Serviço"></a>
-            </div>
-        </div>
+        <nav class="navbar">
+            <a class="navbar-brand"><h1>Histórico</h1></a>
+            <form class="form-inline">
+              <input class="form-control mr-sm-2" type="search" placeholder="Pesquisar" aria-label="Pesquisar">
+              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
+            </form>
+          </nav>
         <div id="lista"></div>
 
                 
@@ -57,13 +56,13 @@
     </div> 
     <script>
         $.ajax({
-            url:'/showservices',
+            url:'/historico',
             method:'post'
         }).done(dados=>{
             console.log(dados)
-                for(i in dados){
+                for(let i = dados.length-1 ; i>=0; i--){
                     $('#lista').append(
-                        '<div class="card mt-4"><div class="card-body"><div class="row "><div class="col-md">Cliente: '+
+                    '<div class="card mt-4"><div class="card-body"><div class="row "><div class="col-md">Cliente: '+
                     dados[i].cliente+
                     '</div><div class="col-md">Contato: '+
                     dados[i].contato+
@@ -81,18 +80,16 @@
                     dados[i].valor+
                     ' reais</div></div><div class="row mt-3"><div class="col-md"> Pago: '+
                     dados[i].pago+
-                    '</div><div class="col-md"><div class="btn-group">'+
-                        '<a href="/update/'+
-                        dados[i]._id+'">'+
-                        '<button class="btn btn-info btn-sm">Atualizar</button>'+
-                        '</a><a href="/encerrarservico/'+
-                        dados[i]._id+'">'+
-                        '<button class="btn btn-danger btn-sm">Encerrar</button>'+
-                    '</a></div></div></div></div></div>'
+                    '</div><div class="col-md"> Saída: '+
+                    dados[i].hora_saida+
+                    '</div></div></div></div>'
                     )
                 }
         })
     </script>   
+
+
+
 
 </body>
 </html>

@@ -23,22 +23,23 @@
                   <a class="nav-link" href="/">Home</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">Encerrados</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Clientes</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Carros</a>
+                    <a class="nav-link" href="/historico">Histórico</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/config">Configurações</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">Carros</a>
+                  </li>
                 </li>
               </ul>
             </div>
           </nav>
     </nav>
 
-    <form  method="post" action="/entradaservico">
+    <form id="formulario" method="post">
         <div class="container">
-            <h1 class="h1 mt-4">Entrada de Serviços</h1>
+            <h1 class="h1 mt-4">Atualizar Serviço</h1>
             <!-- Linha Nome e Contato -->
             <div class="row mt-4">
                 <div class="col-md-7 form-group">
@@ -57,7 +58,6 @@
                     <label for="carro">Carro: </label>
                     <div class="input-group">
                         <select name="carro" id="carro" class="form-control">
-                            <option value="Não Definido!">Selecione o Veículo</option>
                         </select>
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".AddCarModal">+</button>
                     </div>
@@ -74,7 +74,6 @@
                     <label for="carro">Serviço: </label>
                     <div class="input-group">
                         <select name="service" id="service" class="form-control">
-                            <option value="Teste" >Teste</option>
                         </select>
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".AddServiceModal">+</button>
                     </div>
@@ -91,7 +90,6 @@
                     <label for="pagform">Forma de Pagamento: </label>
                     <div class="input-group">
                         <select name="pagform" id="pagform" class="form-control">
-                            <option value="Teste" >Teste</option>
                         </select>
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".AddPagamentoModal">+</button>
                     </div>
@@ -112,7 +110,7 @@
                     </div>
                 </div>
                 <div class="col text-right ">
-                    <button class="btn btn-success">Adicionar</button>
+                    <button class="btn btn-success">Atualizar</button>
                 </div>
             </div>
         
@@ -153,7 +151,7 @@
         </div>
     </form>
     <!-- Modal que adiciona Formas de Pagamento -->
-        <form onsubmit="return addpagform()" method="post">
+        <form onsubmit="return pagform()" method="post">
         <div id="AddPagformModal" class="modal fade AddPagamentoModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-sm">
             <div class="modal-content">
@@ -169,6 +167,7 @@
     </form>
 
     <script>
+        update()
         showcar()
         showservice()
         showpagform()
@@ -222,9 +221,9 @@
             }).done(x=>{console.log(x)
                 console.log(marca+' '+modelo+' adcionado')    
             })
-            showcar()
             $('#AddCarModal').modal('hide');
             alert('Cadastrado com Sucesso!')
+            showcar()
         }
             return false
         }
@@ -238,9 +237,9 @@
                 }).done(x=>{console.log(x)
                     console.log('Serviço '+service+' adicionado')
                 })
-                showservice()
                 $('#AddServiceModal').modal('hide')
                 alert('Cadastrado com Sucesso!')
+                showservice()
             }
             return false
         }
@@ -252,13 +251,35 @@
                     method: 'post',
                     data: {pagform}
                 }).done(x=>{console.log(x)})
-                showpagform()
                 $('#AddPagformModal').modal('hide')
                 alert('Cadastrado com sucesso')
+                showpagform()
             }
             return false
         }
-    </script>
+        function update(){
+            var url = window.location.href
+            var urlsplit = url.split('/')
+            var id = urlsplit.pop()
+            $.ajax({
+                url: '/update/'+id,
+                method: 'post'
+            }).done(data=>{
+                console.log(data)
+                $('#cliente').val(data.cliente)
+                $('#contato').val(data.contato)
+                $('#carro').val(data.carro)
+                $('#placa').val(data.placa)
+                $('#service').val(data.service)
+                $('#valor').val(data.valor)
+                $('#pagform').val(data.pagform)
+                $('#obs').val(data.obs)
+                // $('#').val(data.)
+            })
+            $('#formulario').attr('action','/updating/'+id)
+        }
+        
+   </script>
     
 </body>
 </html>
