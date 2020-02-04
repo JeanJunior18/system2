@@ -34,7 +34,7 @@ module.exports = {
             contato: service.contato,
             carro: service.carro,
             placa: service.placa,
-            servico: service.service,
+            servico: service.servico,
             valor: service.valor,
             pagform: service.pagform,
             observacoes: service.obs,
