@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname+'public')));
 
 
-Database
+// Database
 mongoose.connect('mongodb+srv://dbuser:6789054321@carhouse-ost8x.gcp.mongodb.net/test?retryWrites=true&w=majority',  {
     useUnifiedTopology:true,
     useFindAndModify:false,
