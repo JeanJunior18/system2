@@ -12,11 +12,21 @@ app.use(express.static(path.join(__dirname+'public')));
 
 
 // Database
-mongoose.connect('mongodb+srv://jean:123654789@cluster0-tkfwj.mongodb.net/test?retryWrites=true&w=majority',  {
-    useUnifiedTopology:true,
-    useFindAndModify:false,
-    useNewUrlParser:true,
+// mongoose.connect('mongodb+srv://jean:123654789@cluster0-tkfwj.mongodb.net/test?retryWrites=true&w=majority',  {
+//     useUnifiedTopology:true,
+//     useFindAndModify:false,
+//     useNewUrlParser:true,
+// });
+
+const MongoClient = require('mongodb').MongoClient;
+const uri = "mongodb+srv://jean:<password>@cluster0-tkfwj.mongodb.net/test?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { useNewUrlParser: true });
+client.connect(err => {
+  const collection = client.db("test").collection("devices");
+  // perform actions on the collection object
+  client.close();
 });
+
 requireDir('./src/models');
 
 // Route
