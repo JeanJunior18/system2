@@ -30,7 +30,7 @@
                   <a class="nav-link" href="/config">Configurações</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">Carros</a>
+                  <a class="nav-link" href="/dashboard">Dashboard</a>
                 </li>
               </ul>
             </div>
@@ -61,7 +61,7 @@
             method:'post'
         }).done(dados=>{
             console.log(dados)
-                for(i in dados){
+            for(let i = dados.length-1 ; i>=0; i--){
                     $('#lista').append(
                         '<div class="card mt-4"><div class="card-body"><div class="row "><div class="col-md">Cliente: '+
                     dados[i].cliente+

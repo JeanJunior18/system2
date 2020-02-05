@@ -6,6 +6,7 @@ const Entrada = require('./controllers/EntradasController')
 const Carro = require('./controllers/CarroController')
 const Serv = require('./controllers/ServPagFormController')
 const Hist = require('./controllers/HistoricoController')
+const Dash = require('./controllers/DashboardController')
 
 // Home Services    
     router.get('/', (req,res)=>{res.sendFile(path.join(__dirname+'/views/home.html'))});
@@ -22,7 +23,7 @@ const Hist = require('./controllers/HistoricoController')
 
 // Dashboard
     router.get('/dashboard',(req,res)=>{res.sendFile(path.join(__dirname+'/views/dashboard.html'))})
-    router.get('/values', Hist.dashboard)
+    router.get('/values', Dash.PagFormJson)
 
 // History Page
     router.get('/historico', (req,res)=>{res.sendFile(path.join(__dirname+'/views/history.html'))})

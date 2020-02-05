@@ -10,7 +10,7 @@ const EntradaSchema = new mongoose.Schema({
     pagform: {type: String},
     observacoes: {type: String},
     pago: {type: Boolean, default:false},
-    hora_entrada: {type: Date, default:Date.now()}
+    hora_entrada: {type: Date, default:new Date()}
 })
 
 mongoose.model('Entrada', EntradaSchema)
