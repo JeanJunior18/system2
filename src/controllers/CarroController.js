@@ -14,6 +14,13 @@ module.exports ={
     },
     async showAllCars(req,res){
         const all = await Carro.find();
+        var text = all.marca+" "+all.modelo
+        arr = []; var i=1
+        all.forEach(x => {
+            arr.push({id: x.marca+" "+x.modelo,text:x.marca+" "+x.modelo})
+            i +=1
+        });
+
         res.json(all)
         console.log("Select atualizado!")
     }

@@ -14,7 +14,11 @@ module.exports = {
             valor: req.body.valor,
             pagform: req.body.pagform,
             observacoes: req.body.obs,
-            // Pago confirm here
+            pago: false
+        }
+         if(req.body.pago){
+            newentrada['pago'] = true
+            console.log(req.body.pago)
         }
         Entrada(newentrada).save().then(()=>{
             console.log('Novo Serviço Adicionado')
@@ -53,7 +57,7 @@ module.exports = {
         console.log('update')
     },
     async UpdateService(req,res){
-        var update = await Entrada.findByIdAndUpdate(req.params.id, {
+        var service = {
             cliente: req.body.cliente,
             contato: req.body.contato,
             carro: req.body.carro,
@@ -62,8 +66,13 @@ module.exports = {
             valor: req.body.valor,
             pagform: req.body.pagform,
             observacoes: req.body.obs,
-            // Pago
-        },{new:true})
+            pago: false
+        }
+        if(req.body.pago){
+            service['pago'] = true
+            console.log(req.body.pago)
+        }
+        var update = await Entrada.findByIdAndUpdate(req.params.id,service,{new:true})
         res.redirect('/')
     }
 }

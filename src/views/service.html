@@ -9,6 +9,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.12/jquery.mask.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    
+    <script src="/select2/js/select2.js"></script>
+    <link rel="stylesheet" href="/select2/css/select2.css">
+    <link rel="stylesheet" href="/select2/select2-bootstrap4.css">
     <title></title>
 </head>
 <body>
@@ -56,16 +60,14 @@
             <div class="row ">
                 <div class="col-md-7 form-group">
                     <label for="carro">Carro: </label>
-                    <div class="input-group">
                         <select name="carro" id="carro" class="form-control">
                             <option value="Não Definido!">Selecione o Veículo</option>
                         </select>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".AddCarModal">+</button>
-                    </div>
+                        <button type="button" class="mt-3 btn btn-outline-primary btn-sm" data-toggle="modal" data-target=".AddCarModal">Adicionar Veículo</button>
                 </div>
                 <div class="col form-group">
                     <label for="placa">Placa: </label>
-                    <input type="text" id="placa" name="placa" class="form-control" placeholder="">
+                    <input type="text" id="placa" name="placa" class="form-control" placeholder="Placa do Veículo">
                 </div>
             </div>
            
@@ -74,10 +76,8 @@
                 <div class="col-md-7 form-group">
                     <label for="carro">Serviço: </label>
                     <div class="input-group">
-                        <select name="service" id="service" class="form-control">
-                            <option value="Teste" >Teste</option>
-                        </select>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".AddServiceModal">+</button>
+                        <select name="service" id="service" class="form-control"></select>
+                        <button type="button" class="mt-3 btn btn-outline-primary btn-sm" data-toggle="modal" data-target=".AddServiceModal">Adicionar Serviço</button>
                     </div>
                 </div>
                 <div class="col form-group">
@@ -94,7 +94,7 @@
                         <select name="pagform" id="pagform" class="form-control">
                             <option value="Teste" >Teste</option>
                         </select>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".AddPagamentoModal">+</button>
+                        <button type="button" class="mt-3 btn btn-outline-primary btn-sm" data-toggle="modal" data-target=".AddPagamentoModal">Adicionar Forma de Pagamento</button>
                     </div>
                     
                 </div>
@@ -108,7 +108,7 @@
             <div class="row mb-3">
                 <div class="col">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="pago">
+                        <input class="form-check-input" type="checkbox" value="on" id="pago" name="pago">
                         <label class="form-check-label" for="pago">Pago</label>
                     </div>
                 </div>
@@ -270,6 +270,16 @@
         }
         $('#contato').mask('(00) 0 0000-0000')
         $('#placa').mask('AAA XX00',padrao)
+
+        $('#carro').select2({
+            theme: 'bootstrap4',
+        })
+        $('#service').select2({
+            theme: 'bootstrap4',
+        })
+        $('#pagform').select2({
+            theme: 'bootstrap4',
+        })
 
     </script>
 
