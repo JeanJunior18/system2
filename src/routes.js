@@ -23,7 +23,8 @@ const Dash = require('./controllers/DashboardController')
 
 // Dashboard
     router.get('/dashboard',(req,res)=>{res.sendFile(path.join(__dirname+'/views/dashboard.html'))})
-    router.get('/values', Dash.PagFormJson)
+    // router.get('/values', Dash.PagFormJson)
+    router.post('/gethour', Dash.getDate)
 
 // History Page
     router.get('/historico', (req,res)=>{res.sendFile(path.join(__dirname+'/views/history.html'))})

@@ -41,7 +41,6 @@
             </div>
           </nav>
     </nav>
-
     <form id="formulario" method="post">
         <div class="container">
             <h1 class="h1 mt-4">Atualizar Serviço</h1>
@@ -78,11 +77,11 @@
             <div class="row ">
                 <div class="col-md-7 form-group">
                     <label for="carro">Serviço: </label>
-                    <div class="input-group">
+                    
                         <select name="service" id="service" class="form-control">
                         </select>
                         <button type="button" class="mt-2 btn btn-outline-primary btn-sm" data-toggle="modal" data-target=".AddServiceModal">Adicionar Serviço</button>
-                    </div>
+                    
                 </div>
                 <div class="col form-group">
                     <label for="valor">Valor: </label>
@@ -94,11 +93,11 @@
             <div class="row ">
                 <div class="col-md-7 form-group">  
                     <label for="pagform">Forma de Pagamento: </label>
-                    <div class="input-group">
+                    
                         <select name="pagform" id="pagform" class="form-control">
                         </select>
                         <button type="button" class="mt-2 btn btn-outline-primary btn-sm" data-toggle="modal" data-target=".AddPagamentoModal">Adicionar Forma de Pagamento</button>
-                    </div>
+                    
                     
                 </div>
                 <div class="col form-group">
@@ -173,6 +172,7 @@
     </form>
 
     <script>
+         
         showcar()
         showservice()
         showpagform()
@@ -190,6 +190,7 @@
                 }
             })
         }
+        
         function showservice(){
             $.ajax({
                 url: '/listservices',
@@ -294,16 +295,6 @@
         $('#contato').mask('(00) 0 0000-0000')
         $('#placa').mask('AAA XX00',padrao)
         
-
-        $('#carro').select2({
-            theme: 'bootstrap4',
-        })
-        $('#service').select2({
-            theme: 'bootstrap4',
-        })
-        $('#pagform').select2({
-            theme: 'bootstrap4',
-        })
    </script>
     
 </body>

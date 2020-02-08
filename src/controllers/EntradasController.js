@@ -42,8 +42,8 @@ module.exports = {
             valor: service.valor,
             pagform: service.pagform,
             observacoes: service.obs,
-            hora_entrada: service.hora_entrada
-            // Pago confirm here
+            hora_entrada: service.hora_entrada,
+            pago: service.pago
         }
         Historico(log).save().then(async ()=>{
             var deleteserv = await Entrada.findByIdAndRemove(req.params.id)

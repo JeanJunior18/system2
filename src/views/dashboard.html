@@ -9,6 +9,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
     <title></title>
 </head>
 <body>
@@ -20,7 +23,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
               <ul class="navbar-nav">
-                <li class="nav-item active">
+                <li class="nav-item">
                   <a class="nav-link" href="/">Home</span></a>
                 </li>
                 <li class="nav-item">
@@ -29,22 +32,45 @@
                 <li class="nav-item">
                   <a class="nav-link" href="/config">Configurações</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item active">
                   <a class="nav-link" href="/dashboard">Dashboard</a>
                 </li>
               </ul>
             </div>
           </nav>
     </nav>
+
     <div class="container">
+      <h1 class="mt-4">Relatórios</h1>
+
+      <form onsubmit="return getdate()" method="post">
+        <div class="mt-5 mb-5 form-group">
+            <label for="date">Insira a data para gerar o relatório</label>
+            <input type="date" name="date" id="date">
+            <input type="submit" class="btn btn-outline-success btn-sm" value="Gerar">
+        </div>
+      </form>
+
+      <table class="mt-4 table  table-bordered">
+        <thead class="thead-dark">
+          <tr>
+            <th>Forma de Pagamento</th>
+            <th>Número de usos</th>
+            <th>Faturamento</th>
+          </tr>
+        </thead>
+        <tbody id="total">
+          
+        </tbody>
+      </table>
         
         <div class="row mt-5">
             <div class="col-md">
-              <h5 class="text-center">Fomas de Pagamento Utilizadas</h4>  
+              <!-- <h5 class="text-center">Fomas de Pagamento Utilizadas</h4>   -->
               <canvas id="pagform"></canvas>
             </div>
             <div class="col">
-              <h5 class="text-center">Entradas em cada forma de Pagamento</h5>
+              <!-- <h5 class="text-center">Entradas em cada forma de Pagamento</h5> -->
               <canvas id="numpagform"></canvas>
             </div>
         </div>
@@ -60,15 +86,19 @@
           var pagform = $('#pagform')
           var numpagform = $('#numpagform')
           var servicos = $('#servicos')
+          var total = $('#total') 
+          function getdate(){
+            var date = document.getElementById('date').value
             $.ajax({
-              url:'/values',
-              method: 'get'
-            }).done(x=>{
+              url:'/gethour',
+              method: 'post',
+              data:{date}
+            }).done(x =>{
               console.log(x)
               var labels = x.labels
               var contagem = x.contagem
               var soma = x.soma
-                var gfpagform = new Chart(pagform, {
+              var gfpagform = new Chart(pagform, {
                   type: 'pie',
                   label:'Número de Serviços',
                   data:{
@@ -82,8 +112,13 @@
                         'rgba(75, 192, 192)',
                         'rgba(153, 102, 255)',
                         'rgba(255, 159, 64)'
-                    ]}]}});
-                var gfnumpagform = new Chart(numpagform, {
+                    ]}]},
+                    options:{
+                      title:{display:true,text:'Utilização da Formas de Pagamento'},
+                      responsive: true,
+                      legend:{position:'bottom'}
+                    }});
+              var gfnumpagform = new Chart(numpagform, {
                   type:'pie',
                   data:{
                     labels:labels,
@@ -97,23 +132,39 @@
                         'rgba(153, 102, 255)',
                         'rgba(255, 159, 64)'
                     ]}]
-                  }});
-                  var barrasServ = new Chart(servicos, {
-                    type: 'bar',
-                    data: {
-                        labels:[12, 12, 31],
-                        datasets:[{
-                          data: [13,14,12,0]
-                        },{
-                          labels:['line', 'line', 'line'],
-                          data:[13,15,13],
-                          type:'line'
-                        }
-                      ]
-                    }
-                });
-                });
-            
+                  },
+                    options:{
+                      title:{display:true,text:'Receita das Formas de Pagamento'},
+                      responsive: true,
+                      legend:{position:'bottom'}
+                    }});
+              total.html('')
+              for(let i=0;i<labels.length;i++){
+                total.append('<tr><th scope="row">'+
+                  labels[i]+
+                  '</th><td>'+
+                  contagem[i]+
+                  '</td><td>R$ '+
+                  soma[i]+
+                  '</td><tr>'
+                  )};
+
+              var somatotal = 0
+              for (let i = 0; i < soma.length; i++) {
+                somatotal += soma[i];
+                
+              }
+              console.log(soma)
+              console.log(somatotal)
+              total.append('<tr class="table-success"><th colspan="2">Total</th ><td>R$ '+
+                somatotal+
+                '</td></tr>')
+
+
+
+            })
+            return false
+          } 
         </script>
 </body>
 </html>
