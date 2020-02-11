@@ -8,6 +8,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     
     <title>System</title>
 </head>
@@ -42,9 +43,9 @@
     <div class="container">
         <nav class="navbar">
             <a class="navbar-brand"><h1>Histórico</h1></a>
-            <form class="form-inline">
-              <input class="form-control mr-sm-2" type="search" placeholder="Pesquisar" aria-label="Pesquisar">
-              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
+            <form class="form-inline" method="post" onsubmit="return buscar()">
+              <input class="form-control mr-sm-2" type="text" id="search" name="search" placeholder="Pesquisar" aria-label="Pesquisar">
+              <input class="btn btn-outline-success my-2 my-sm-0" type="submit" value="buscar"/>
             </form>
           </nav>
         <div id="lista"></div>
@@ -55,41 +56,82 @@
 
     </div> 
     <script>
-        $.ajax({
-            url:'/historico',
-            method:'post'
-        }).done(dados=>{
-            console.log(dados)
-                for(let i = dados.length-1 ; i>=0; i--){
-                    $('#lista').append(
-                    '<div class="card mt-4"><div class="card-body"><div class="row "><div class="col-md">Cliente: '+
-                    dados[i].cliente+
-                    '</div><div class="col-md">Contato: '+
-                    dados[i].contato+
-                    '</div></div><div class="row mt-3"><div class="col-md">Veículo: '+
-                    dados[i].carro+
-                    '</div><div class="col-md">Placa: '+
-                    dados[i].placa+
-                    '</div></div><div class="row mt-3"><div class="col-md">Serviço: '+
-                    dados[i].servico+
-                    '</div><div class="col-md">Entrada: '+
-                    dados[i].hora_entrada+
-                    '</div></div><div class="row mt-3"><div class="col-md">Pagamento:'+
-                    dados[i].pagform+
-                    '</div><div class="col-md">Valor: '+
-                    dados[i].valor+
-                    ' reais</div></div><div class="row mt-3"><div class="col-md"> Pago: '+
-                    dados[i].pago+
-                    '</div><div class="col-md"> Saída: '+
-                    dados[i].hora_saida+
-                    '</div></div>'+
-                    '<a href="/updatehist/'+
-                        dados[i]._id+'">'+
-                        '<button class="btn btn-info btn-sm">Atualizar</button>'+
-                    '</div></div>'
-                    )
-                }
-        })
+           $.ajax({
+              url:'/historico',
+              method:'post',
+          }).done(dados=>{
+              console.log(dados)
+                  for(i in dados){
+                      $('#lista').append(
+                      '<div class="card mt-4"><div class="card-body"><div class="row "><div class="col-md">Cliente: '+
+                      dados[i].cliente+
+                      '</div><div class="col-md">Contato: '+
+                      dados[i].contato+
+                      '</div></div><div class="row mt-3"><div class="col-md">Veículo: '+
+                      dados[i].carro+
+                      '</div><div class="col-md">Placa: '+
+                      dados[i].placa+
+                      '</div></div><div class="row mt-3"><div class="col-md">Serviço: '+
+                      dados[i].servico+
+                      '</div><div class="col-md">Entrada: '+
+                        moment(dados[i].hora_entrada).format(' h:mm a DD.MM.YYYY')+
+                      '</div></div><div class="row mt-3"><div class="col-md">Pagamento:'+
+                      dados[i].pagform+
+                      '</div><div class="col-md">Valor: '+
+                      dados[i].valor+
+                      ' reais</div></div><div class="row mt-3"><div class="col-md"> Pago: '+
+                      dados[i].pago+
+                      '</div><div class="col-md"> Saída: '+
+                        moment(dados[i].hora_saida).format(' h:mm a DD.MM.YYYY')+
+                      '</div></div>'+
+                      '<a href="/updatehist/'+
+                          dados[i]._id+'">'+
+                          '<button class="btn btn-info btn-sm">Atualizar</button>'+
+                      '</div></div>'
+                      )
+                  }
+          })
+    
+        function buscar(){
+          var search = document.getElementById('search').value
+          $.ajax({
+            url:'/search',
+            method:'post',
+            data:{search}
+          }).done(itens=>{
+            $('#lista').html('')
+            for(i in itens){
+                $('#lista').append(
+                '<div class="card mt-4"><div class="card-body"><div class="row "><div class="col-md">Cliente: '+
+                itens[i].cliente+
+                '</div><div class="col-md">Contato: '+
+                itens[i].contato+
+                '</div></div><div class="row mt-3"><div class="col-md">Veículo: '+
+                itens[i].carro+
+                '</div><div class="col-md">Placa: '+
+                itens[i].placa+
+                '</div></div><div class="row mt-3"><div class="col-md">Serviço: '+
+                itens[i].servico+
+                '</div><div class="col-md">Entrada: '+
+                  moment(itens[i].hora_entrada).format(' h:mm a DD.MM.YYYY')+
+                '</div></div><div class="row mt-3"><div class="col-md">Pagamento:'+
+                itens[i].pagform+
+                '</div><div class="col-md">Valor: '+
+                itens[i].valor+
+                ' reais</div></div><div class="row mt-3"><div class="col-md"> Pago: '+
+                itens[i].pago+
+                '</div><div class="col-md"> Saída: '+
+                  moment(itens[i].hora_saida).format(' h:mm a DD.MM.YYYY')+
+                '</div></div>'+
+                '<a href="/updatehist/'+
+                    itens[i]._id+'">'+
+                    '<button class="btn btn-info btn-sm">Atualizar</button>'+
+                '</div></div>'
+                )
+            }
+          })
+          return false
+        }
     </script>   
 
 

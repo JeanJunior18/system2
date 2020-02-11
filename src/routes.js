@@ -34,6 +34,8 @@ const Dash = require('./controllers/DashboardController')
     router.post('/updatehist/:id', Hist.UpdateData)
     router.post('/updatinghist/:id', Hist.UpdateHist)
 
+    router.post('/search', Hist.search)
+
 // Adicionar Veículo
     router.get('/newcar', (req,res)=>{
     res.sendFile(path.join(__dirname+'/views/newcar.html'))});

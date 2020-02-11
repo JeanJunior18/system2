@@ -4,10 +4,15 @@ const Hist = mongoose.model('Historico')
 
 module.exports = {
     async ShowHistory(req,res){
-        var all = await Hist.find()
+        var all = await Hist.find().sort({'pago':1, 'hora_saida':0})
         res.json(all)
     },
-
+    async search(req,res){
+        var search = RegExp(req.body.search,'i')
+        var results = await Hist.find({'cliente':search}).sort({'pago':1, 'hora_saida':0})
+        console.log(results)
+        res.json(results)
+    },
     async dashboard(req,res){
         var values = await Hist.find()
         res.json(values)
