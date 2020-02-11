@@ -30,7 +30,7 @@
                   <a class="nav-link" href="/config">Configurações</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">Carros</a>
+                  <a class="nav-link" href="/dashboard">Dashboard</a>
                 </li>
               </ul>
             </div>
@@ -82,7 +82,11 @@
                     dados[i].pago+
                     '</div><div class="col-md"> Saída: '+
                     dados[i].hora_saida+
-                    '</div></div></div></div>'
+                    '</div></div>'+
+                    '<a href="/updatehist/'+
+                        dados[i]._id+'">'+
+                        '<button class="btn btn-info btn-sm">Atualizar</button>'+
+                    '</div></div>'
                     )
                 }
         })

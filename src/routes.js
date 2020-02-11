@@ -23,12 +23,16 @@ const Dash = require('./controllers/DashboardController')
 
 // Dashboard
     router.get('/dashboard',(req,res)=>{res.sendFile(path.join(__dirname+'/views/dashboard.html'))})
-    // router.get('/values', Dash.PagFormJson)
     router.post('/gethour', Dash.getDate)
+    router.get('/getservice', Dash.getServices)
 
 // History Page
     router.get('/historico', (req,res)=>{res.sendFile(path.join(__dirname+'/views/history.html'))})
     router.post('/historico', Hist.ShowHistory)
+    
+    router.get('/updatehist/:id',(req,res)=>{res.sendFile(path.join(__dirname+'/views/updatehistory.html'))})
+    router.post('/updatehist/:id', Hist.UpdateData)
+    router.post('/updatinghist/:id', Hist.UpdateHist)
 
 // Adicionar Veículo
     router.get('/newcar', (req,res)=>{
