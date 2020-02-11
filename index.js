@@ -14,8 +14,8 @@ app.use(express.static(path.join(__dirname+'/public')));
 
 
 // Database
-// const uri = 'mongodb+srv://dbuser:6789054321@carhouse-ost8x.gcp.mongodb.net/test?retryWrites=true&w=majority'
-const uri = 'mongodb://localhost:27017/system1'
+const uri = 'mongodb+srv://dbuser:6789054321@carhouse-ost8x.gcp.mongodb.net/test?retryWrites=true&w=majority'
+// const uri = 'mongodb://localhost:27017/system1'
 mongoose.connect(uri,  {
     useUnifiedTopology:true,
     useFindAndModify:false,
