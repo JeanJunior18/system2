@@ -16,11 +16,9 @@ module.exports = {
             observacoes: req.body.obs,
             pago: false
         }
-         if(req.body.pago){
-            newentrada['pago'] = true
-            console.log(req.body.pago)
-        }
-        Entrada(newentrada).save().then(()=>{
+         if(req.body.pago) newentrada['pago'] = true
+
+        Entrada(newentrada).save(()=>{
             console.log('Novo Serviço Adicionado')
             console.log(newentrada)
             res.redirect('/')
@@ -29,7 +27,6 @@ module.exports = {
     async ShowServices(req,res){
         var all = await Entrada.find()
         res.json(all)
-        console.log('Home atualizada')
     },
     async EndService(req,res){
         var service = await Entrada.findById(req.params.id)
@@ -68,10 +65,8 @@ module.exports = {
             observacoes: req.body.obs,
             pago: false
         }
-        if(req.body.pago){
-            service['pago'] = true
-            console.log(req.body.pago)
-        }
+        if(req.body.pago) service['pago'] = true
+
         var update = await Entrada.findByIdAndUpdate(req.params.id,service,{new:true})
         res.redirect('/')
     }

@@ -24,7 +24,7 @@ const Dash = require('./controllers/DashboardController')
 // Dashboard
     router.get('/dashboard',(req,res)=>{res.sendFile(path.join(__dirname+'/views/dashboard.html'))})
     router.post('/gethour', Dash.getDate)
-    router.get('/getservice', Dash.getServices)
+    // router.get('/getservice', Dash.getServices)
 
 // History Page
     router.get('/historico', (req,res)=>{res.sendFile(path.join(__dirname+'/views/history.html'))})
