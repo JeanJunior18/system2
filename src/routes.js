@@ -7,6 +7,7 @@ const Carro = require('./controllers/CarroController')
 const Serv = require('./controllers/ServPagFormController')
 const Hist = require('./controllers/HistoricoController')
 const Dash = require('./controllers/DashboardController')
+const Saida = require('./controllers/SaidasController')
 
 // Home Services    
     router.get('/', (req,res)=>{res.sendFile(path.join(__dirname+'/views/home.html'))});
@@ -52,5 +53,14 @@ const Dash = require('./controllers/DashboardController')
 // Formulario Total
     router.post('/entradaservico', Entrada.EntradaServico)
 
+// Saidas
+    
+
 
 module.exports = router
+        router.get('/saidas', (req,res)=>{res.sendFile(path.join(__dirname+'/views/saidas.html'))})
+
+        router.post('/listcategorias', Saida.ShowCats)
+        router.post('/newcategoria', Saida.CreateCat)
+        router.post('/listsaidas', Saida.ShowSaidas)
+        router.post('/newsaida', Saida.CreateSaida)
